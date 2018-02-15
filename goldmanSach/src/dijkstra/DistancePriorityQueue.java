@@ -1,4 +1,4 @@
-package dijktra;
+package dijkstra;
 
 public class DistancePriorityQueue {
 

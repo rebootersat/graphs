@@ -1,13 +1,11 @@
-package dijktra;
+package dijkstra;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import dijktra.DistancePriorityQueue.Vertex;
+import dijkstra.DistancePriorityQueue.Vertex;
 
 public class DistancePriorityQueueTest {
 	private DistancePriorityQueue q;
