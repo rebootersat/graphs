@@ -56,25 +56,25 @@ public class DistancePriorityQueueTest {
 
 	@Test
 	public void toString_whenElementsAreInAscendingOrder_shouldReturnTheElementsValueInSameOrders() {
-		q.addUpdateElement("A", 0);
-		q.addUpdateElement("B", 3);
-		q.addUpdateElement("C", 4);
+		q.addUpdateElement("A", 0,null);
+		q.addUpdateElement("B", 3,null);
+		q.addUpdateElement("C", 4,null);
 		assertEquals(q.toString(), "ABC");
 	}
 
 	@Test
 	public void toString_whenElementsDistanceDisercendingOrder_shouldReturnTheElementsValueInSameOrders() {
-		q.addUpdateElement("A", 6);
-		q.addUpdateElement("B", 5);
-		q.addUpdateElement("C", 4);
+		q.addUpdateElement("A", 6,null);
+		q.addUpdateElement("B", 5,null);
+		q.addUpdateElement("C", 4,null);
 		assertEquals(q.toString(), "CBA");
 	}
 
 	@Test
 	public void toString_whenElementsDistanceRandomOrder_shouldReturnTheElementsValueInSameOrders() {
-		q.addUpdateElement("A", 6);
-		q.addUpdateElement("B", 8);
-		q.addUpdateElement("C", 4);
+		q.addUpdateElement("A", 6,null);
+		q.addUpdateElement("B", 8,null);
+		q.addUpdateElement("C", 4,null);
 		assertEquals(q.toString(), "CAB");
 	}
 
@@ -128,27 +128,27 @@ public class DistancePriorityQueueTest {
 
 	@Test
 	public void verifyOrderWithPrevAndNext_shouldReturnTrue() {
-		q.addUpdateElement("A", 6);
-		q.addUpdateElement("B", 8);
-		q.addUpdateElement("C", 4);
+		q.addUpdateElement("A", 6,null);
+		q.addUpdateElement("B", 8,null);
+		q.addUpdateElement("C", 4,null);
 		boolean isSame = q.verifyOrderWithPrevAndNext();
 		assertTrue(isSame);
 	}
 
 	@Test
 	public void remove_whenEmpty_shouldReturnNull() {
-		String v = q.remove();
+		Vertex v = q.remove();
 		assertNull(v);
 	}
 	
 	@Test
 	public void remove_whenNotEmpty_shouldReturnElement() {
-		q.addUpdateElement("A", 6);
-		q.addUpdateElement("B", 8);
-		q.addUpdateElement("C", 4);
-		assertEquals(q.remove(), "C");
-		assertEquals(q.remove(), "A");
-		assertEquals(q.remove(), "B");
+		q.addUpdateElement("A", 6,null);
+		q.addUpdateElement("B", 8,null);
+		q.addUpdateElement("C", 4,null);
+		assertEquals(q.remove().value, "C");
+		assertEquals(q.remove().value, "A");
+		assertEquals(q.remove().value, "B");
 		assertNull(q.remove());
 	}
 }

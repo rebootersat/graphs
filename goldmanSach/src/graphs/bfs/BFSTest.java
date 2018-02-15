@@ -16,7 +16,7 @@ public class BFSTest {
 	}
 
 	@Test
-	public void traverse() {
+	public void traverse() throws Exception {
 		bfs.traverse();
 	}
 

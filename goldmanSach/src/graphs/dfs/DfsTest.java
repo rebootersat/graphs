@@ -1,8 +1,8 @@
 package graphs.dfs;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.Assert;
 import graphs.Graph;
 import graphs.Vertex;
 
@@ -25,35 +25,32 @@ public class DfsTest {
 		boolean isNodeVisited = dfs.isNodeVisited(new Vertex("A"));
 		assertFalse(isNodeVisited);
 	}
-	
-	/*@Test
-	public void pushNode_whenNodeNotVisited_shouldReturnTrue() {
-		boolean isNodeInStack = dfs.pushNode(new Node("A"));
-		assertFalse(!isNodeInStack);
-	}
-	
-	@Test
-	public void pushNode_whenNodeVisited_shouldReturnFalse() {
-		dfs.pushNode(new Node("A"));
-		boolean isNodeInStack = dfs.pushNode(new Node("A"));
-		assertTrue(!isNodeInStack);
-	}*/
-	
+
+	/*
+	 * @Test public void pushNode_whenNodeNotVisited_shouldReturnTrue() {
+	 * boolean isNodeInStack = dfs.pushNode(new Node("A"));
+	 * assertFalse(!isNodeInStack); }
+	 * 
+	 * @Test public void pushNode_whenNodeVisited_shouldReturnFalse() {
+	 * dfs.pushNode(new Node("A")); boolean isNodeInStack = dfs.pushNode(new
+	 * Node("A")); assertTrue(!isNodeInStack); }
+	 */
+
 	@Test
 	public void hasLinkToNodes_whenLinkNotExist_shouldReturnFalse() {
 		boolean hasLink = dfs.hasLinkToNodes(new Vertex("C"));
 		assertFalse(hasLink);
 	}
-	
+
 	@Test
 	public void hasLinkToNodes_whenLinkExist_shouldReturnTrue() {
 		boolean hasLink = dfs.hasLinkToNodes(new Vertex("A"));
 		assertTrue(hasLink);
 	}
-	
+
 	@Test
-	public void traverse_shouldPrintSequence() {
+	public void traverse_shouldPrintSequence() throws Exception {
 		String order = dfs.traverse();
-		Assert.assertEquals("ABEDC", order);
+		assertEquals("ABEDC", order);
 	}
 }

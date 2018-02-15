@@ -5,15 +5,25 @@ public class Vertex implements Cloneable{
 	String value;
 	boolean isVisited;
 	Vertex next;
+	public int distance;
 
 	public Vertex(String first) {
 		this.value = first;
+	}
+	
+	public Vertex(String first, int distance) {
+		this.value = first;
+		this.distance = distance;
 	}
 
 	public String getValue() {
 		return value;
 	}
 
+	public int getDistance() {
+		return distance;
+	}
+	
 	public void setNext(Vertex next) {
 		this.next = next;
 	}

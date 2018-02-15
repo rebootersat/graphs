@@ -31,13 +31,36 @@ public class Graph {
 			}
 		}
 	}
+	
+	public void addEdge(String first, String second, int distance) {
+		Vertex firstEle = new Vertex(first);
+		Vertex secondEle = new Vertex(second, distance);
+		int eleIndex = hasNode(first);
+		if (eleIndex == -1) {
+			firstEle.next = secondEle;
+			nodes[index++] = firstEle;
+		} else {
+			Vertex lastNode = getLastNode(eleIndex);
+			lastNode.setNext(secondEle);
+		}
+		eleIndex = hasNode(second);
+		if (eleIndex == -1) {
+			try {
+				nodes[index++] = (Vertex) secondEle.clone();
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public boolean isPairExist(String firstValue, String secondValue) {
 		int index = hasNode(firstValue);
 		return index != -1 ? indexOf(index, secondValue) != -1 : false;
 	}
 
-	public Vertex getSourceVertex() {
+	public Vertex getSourceVertex() throws Exception {
+		if(index == 0)
+			throw new Exception("Graph is empty");
 		return nodes[0];
 	}
 
@@ -152,6 +175,24 @@ public class Graph {
 		Vertex[] vertices = new Vertex[0];
 		for (int i = 0; i < index; i++) {
 			if (nodes[i].equals(sourceNode)) {
+				Vertex adjacentVertex = getNonVisitedNode(nodes[i]);
+				int z = 0;
+				while (adjacentVertex != null) {
+					if (!adjacentVertex.isVisited) {
+						vertices = Arrays.copyOf(vertices, z + 1);
+						vertices[z++] = adjacentVertex;
+					}
+					adjacentVertex = adjacentVertex.next;
+				}
+			}
+		}
+		return vertices;
+	}
+	
+	public Vertex[] getAdjacentVertices(String sourceNode) {
+		Vertex[] vertices = new Vertex[0];
+		for (int i = 0; i < index; i++) {
+			if (nodes[i].getValue().equals(sourceNode)) {
 				Vertex adjacentVertex = getNonVisitedNode(nodes[i]);
 				int z = 0;
 				while (adjacentVertex != null) {

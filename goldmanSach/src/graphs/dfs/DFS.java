@@ -23,7 +23,7 @@ public class DFS {
 		return graph.hasLinkedNode(node);
 	}
 
-	public String traverse() {
+	public String traverse() throws Exception {
 		StringBuilder result = new StringBuilder();
 		Vertex currentVertex = graph.getSourceVertex();
 		Vertex adjacentVertex = null;

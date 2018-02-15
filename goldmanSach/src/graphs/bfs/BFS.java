@@ -16,14 +16,14 @@ public class BFS {
 		q = new LinkedList<>();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Graph graph = new Graph(5);
 		graph.init();
 		BFS bfs = new BFS(graph);
 		bfs.traverse();
 	}
 	
-	public void traverse() {
+	public void traverse() throws Exception {
 		Vertex sourceNode = graph.getSourceVertex();
 		graph.registerVisit(sourceNode);
 		q.add(sourceNode);
