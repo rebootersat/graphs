@@ -18,13 +18,10 @@ public class Dijkstra {
 		while (!queue.isEmpty()) {
 			Vertex temp = queue.remove();
 			result.append(temp).append("\n");
-			graphs.Vertex[] adjacentVertices = graph
-					.getAdjacentVertices(temp.value);
+			graphs.Vertex[] adjacentVertices = graph.getAdjacentVertices(temp.value);
 			for (int i = 0; i < adjacentVertices.length; i++) {
 				if (result.indexOf(adjacentVertices[i].getValue()) == -1)
-					queue.addUpdateElement(adjacentVertices[i].getValue(),
-							temp.distance + adjacentVertices[i].getDistance(),
-							temp.value);
+					queue.addUpdateElement(adjacentVertices[i].getValue(), temp.distance + adjacentVertices[i].getDistance(), temp.value);
 			}
 		}
 		return result.toString();

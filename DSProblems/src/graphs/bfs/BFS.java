@@ -22,7 +22,7 @@ public class BFS {
 		BFS bfs = new BFS(graph);
 		bfs.traverse();
 	}
-	
+
 	public void traverse() throws Exception {
 		Vertex sourceNode = graph.getSourceVertex();
 		graph.registerVisit(sourceNode);

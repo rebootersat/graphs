@@ -31,7 +31,7 @@ public class Graph {
 			}
 		}
 	}
-	
+
 	public void addEdge(String first, String second, int distance) {
 		Vertex firstEle = new Vertex(first);
 		Vertex secondEle = new Vertex(second, distance);
@@ -59,7 +59,7 @@ public class Graph {
 	}
 
 	public Vertex getSourceVertex() throws Exception {
-		if(index == 0)
+		if (index == 0)
 			throw new Exception("Graph is empty");
 		return nodes[0];
 	}
@@ -130,8 +130,7 @@ public class Graph {
 			}
 		}
 		if (!isNodeExist)
-			throw new IllegalArgumentException("No such node exist..."
-					+ node.value);
+			throw new IllegalArgumentException("No such node exist..." + node.value);
 		return false;
 	}
 
@@ -188,7 +187,7 @@ public class Graph {
 		}
 		return vertices;
 	}
-	
+
 	public Vertex[] getAdjacentVertices(String sourceNode) {
 		Vertex[] vertices = new Vertex[0];
 		for (int i = 0; i < index; i++) {
