@@ -78,4 +78,29 @@ public class BellmanFordTableTest {
 		boolean isContains = table.contains("A");
 		assertEquals(isContains, true);
 	}
+	
+	@Test
+	public void updateAdjacentVertex_whenVertexNotPresent_shouldThrowException() {
+		expected.expectMessage("Vertex does not exist W");
+		expected.expect(IllegalArgumentException.class);
+		table.updateAdjacentVertex("W",8,"S");
+	}
+	
+	@Test
+	public void updateAdjacentVertex_whenVertexDistanceLessThanExistingDistance_shouldUpdateAndreturntrue() {
+		table.createTable(new String[]{"S","A","B","C","D","E"});
+		boolean isUpdated = table.updateAdjacentVertex("A",10,"S");
+		assertTrue(isUpdated);
+	}
+	
+	@Test
+	public void updateAdjacentVertex_whenVertexDistanceGreaterThanExistingDistance_shouldNotUpdateAndreturnFalse() {
+		table.createTable(new String[]{"S","A","B","C","D","E"});
+		table.updateAdjacentVertex("A",10,"S");
+		boolean isUpdated = table.updateAdjacentVertex("A",30,"S");
+		assertFalse(isUpdated);
+	}
+	
+	
+	
 }

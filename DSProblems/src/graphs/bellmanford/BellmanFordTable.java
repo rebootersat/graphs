@@ -15,6 +15,7 @@ public class BellmanFordTable {
 		if (allVerticesValue.length == 0)
 			throw new IllegalArgumentException("Vertices count cannot be zero");
 		start = new BellMFordVertex(allVerticesValue[0]);
+		start.distance = 0;
 		size++;
 		BellMFordVertex lastVertex = start;
 		for (int i = 1; i < allVerticesValue.length; i++) {
@@ -38,6 +39,20 @@ public class BellmanFordTable {
 			vertex = vertex.next;
 		}
 		return builder.toString();
+	}
+
+	public BellMFordVertex[] toArray() throws CloneNotSupportedException {
+		if (start == null)
+			return new BellMFordVertex[0];
+
+		BellMFordVertex[] builder = new BellMFordVertex[size];
+		BellMFordVertex vertex = start;
+		int i = 0;
+		while (vertex != null) {
+			builder[i++] = (BellMFordVertex) vertex;
+			vertex = vertex.next;
+		}
+		return builder;
 	}
 
 	public boolean isAllVerticesInitialValueMaximum() {
@@ -66,7 +81,7 @@ public class BellmanFordTable {
 		return hasMax;
 	}
 
-	class BellMFordVertex {
+	class BellMFordVertex implements Cloneable {
 		private String value;
 		private int distance;
 		private String parent;
@@ -76,6 +91,57 @@ public class BellmanFordTable {
 			this.value = value;
 			distance = Integer.MAX_VALUE;
 		}
+
+		public BellMFordVertex(String value, int distance) {
+			this.value = value;
+			this.distance = distance;
+		}
+
+		public int getDistance() {
+			return distance;
+		}
+
+		public String getValue() {
+			return value;
+		}
+
+		@Override
+		public String toString() {
+			return "[" + value + "]" + "-" + "[" + distance + "]" + "-" + "[" + parent + "]";
+		}
+
+		@Override
+		protected Object clone() throws CloneNotSupportedException {
+			return new BellMFordVertex(value, distance);
+		}
 	}
 
+	public boolean updateAdjacentVertex(String adjacentVertexValue, int distance, String parentValue) {
+		if (!contains(adjacentVertexValue))
+			throw new IllegalArgumentException("Vertex does not exist " + adjacentVertexValue);
+		BellMFordVertex temp = start;
+		while (temp != null) {
+			if (temp.value.equals(adjacentVertexValue)) {
+				if (distance < temp.distance) {
+					temp.distance = distance;
+					temp.parent = parentValue;
+					return true;
+				}
+			}
+			temp = temp.next;
+		}
+
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		BellMFordVertex temp = start;
+		while (temp != null) {
+			result.append(temp).append("\n");
+			temp = temp.next;
+		}
+		return result.toString();
+	}
 }
