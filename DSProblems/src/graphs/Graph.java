@@ -205,4 +205,12 @@ public class Graph {
 		}
 		return vertices;
 	}
+	
+	public String[] getAllVerticesValue() {
+		String arr[] = new String[index];
+		for (int i = 0; i < index; i++) {
+			arr[i] = nodes[i].getValue();
+		}
+		return arr;
+	}
 }
