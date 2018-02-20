@@ -34,22 +34,7 @@ public class DistinctNumbersFinder {
 	}
 
 	/**
-	 * There are two approaches for extracting repeated number 1. Perform XOR
-	 * for first two number, if result is non zero it means both numbers are
-	 * distinct number or 1 distinct or one repeated. To make sure this perform
-	 * XOR for at least next three numbers.
-	 * 
-	 * Example 2,1,3,2
-	 * 
-	 * 2 is repeated number, if two consecutive numbers are different then next
-	 * number would be a repeated number
-	 * 
-	 * Example 1,3,2,2 1 is not a repeated number so its XOR will never result
-	 * in zero.After 3 Comparisons move on next number and repeat the same
-	 * process.
-	 * 
-	 * 
-	 * 2. Extract repeated number using brute force(implemented solution)
+	 * Extract repeated number using brute force(implemented solution)
 	 * 
 	 * @param arr
 	 *            input array
@@ -65,6 +50,51 @@ public class DistinctNumbersFinder {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Perform XOR for first two number, if result is non zero it means both
+	 * numbers are distinct number or 1 distinct or one repeated. To make sure
+	 * this perform XOR for at least next three numbers. if next three numbers
+	 * are not available then check for three previous
+	 * 
+	 * Example 2,1,3,2
+	 * 
+	 * 2 is repeated number, if two consecutive numbers are different then next
+	 * number would be a repeated number
+	 * 
+	 * Example 2,2,1,3
+	 * 
+	 */
+	public int[] getDistinctNumbersUsingConsecutiveChecking(int[] arr) {
+		int[] res = new int[2];
+		int totalComparisions = 0;
+		int j = 0;
+		for (int i = 0; i < arr.length;) {
+			// if two consecutive number are same skip both the numbers
+			if ((arr[i] ^ arr[++j]) == 0) {
+				// last two number are different
+				if (i + 2 == arr.length) {
+					res[0] = arr[i];
+					res[1] = arr[i + 1];
+
+					break;
+				}
+				i = i + 2;
+				totalComparisions++;
+				continue;
+			} 
+			// 
+			else if (arr.length < i + 2) {
+				totalComparisions++;
+				i = i + 1;
+			} else if ((arr[i] ^ arr[i + 3]) == 0) {
+				totalComparisions++;
+				i++;
+			}
+		}
+
+		return null;
 	}
 
 }

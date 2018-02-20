@@ -34,6 +34,14 @@ public class DistinctNumbersFinderTest {
 		assertEquals(num[0], 1);
 		assertEquals(num[1], 3);
 	}
+	
+	@Test
+	public void getDistinctNumbersorce_shouldReturnDistinctNumbers() {
+		int arr[] = { 2, 1, 3, 2 };
+		int[] num= finder.getDistinctNumbersUsingConsecutiveChecking(arr);
+		assertEquals(num[0], 1);
+		assertEquals(num[1], 3);
+	}
 
 	@Test
 	public void getRepeatedNumber_whenTwoConsecutiveNumbersAreRepeatedNumbers_shouldReturnTwo() {
