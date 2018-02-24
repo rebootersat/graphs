@@ -1,6 +1,7 @@
 package main.java.core;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Adjacency list representation of the graph
@@ -9,7 +10,7 @@ import java.util.Arrays;
  *
  * @param <V>
  */
-public class Graph<V extends Object>
+public class Graph<V> implements Cloneable
 {
 	private Vertex<V>[] vertices;
 	private boolean isDirected;
@@ -21,10 +22,28 @@ public class Graph<V extends Object>
 		isDirected = true;
 	}
 	
+	@SuppressWarnings("unchecked")
+	private Graph(int no, boolean isDirected)
+	{
+		vertices = new Vertex[no];
+		this.isDirected = isDirected;
+	}
+	
 	public Graph(boolean isDirected)
 	{
 		this();
 		this.isDirected = isDirected;
+	}
+	
+	/**
+	 * Returns the source value
+	 * 
+	 * @return Returns the source value
+	 */
+	public V getSource() {
+		if (vertices.length == 0)
+			throw new NoSuchElementException("Source is not defined");
+		return vertices[0].getValue();
 	}
 	
 	/**
@@ -71,6 +90,19 @@ public class Graph<V extends Object>
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Returns true if graph contains a vertex for given value, false otherwise
+	 * 
+	 * @param value
+	 *            given value
+	 * @return true if graph contains a vertex for given value, false otherwise
+	 */
+	public boolean contains(V value) {
+		if (getVertexIndex(value) == -1)
+			return false;
+		return true;
 	}
 	
 	/**
@@ -237,7 +269,7 @@ public class Graph<V extends Object>
 	/**
 	 * Returns the values of all vertices
 	 * 
-	 * @return
+	 * @return Returns the values of all vertices
 	 */
 	public Object[] getVerticesValue() {
 		Object[] vts = new Object[vertices.length];
@@ -258,5 +290,44 @@ public class Graph<V extends Object>
 				return false;
 		}
 		return true;
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		Graph<V> graph = new Graph<>(vertices.length, isDirected);
+		for (int i = 0; i < vertices.length; i++)
+		{
+			if (vertices[i] != null)
+			{
+				Vertex<V> vertex = getInitialVertex(vertices[i]);
+				graph.set(i, vertex);
+			}
+		}
+		return graph;
+	}
+	
+	private void set(int index, Vertex<V> vertex) {
+		vertices[index] = vertex;
+	}
+	
+	/**
+	 * Create a copy of a vertex and its adjacent vertices
+	 * 
+	 * @param vertex
+	 *            given vertex
+	 * @return newly create list
+	 * @throws CloneNotSupportedException
+	 */
+	@SuppressWarnings("unchecked")
+	private Vertex<V> getInitialVertex(Vertex<V> vertex) throws CloneNotSupportedException {
+		Vertex<V> newVertex = (Vertex<V>) vertex.clone();
+		Vertex<V> first = newVertex;
+		Vertex<V> temp = vertex.next;
+		while (temp != null)
+		{
+			newVertex.setNext(newVertex = (Vertex<V>) temp.clone());
+			temp = temp.next;
+		}
+		return first;
 	}
 }

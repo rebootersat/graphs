@@ -1,10 +1,17 @@
 package main.java.core;
 
-public class Vertex<V>
+public class Vertex<V> implements Cloneable
 {
 	private V value;
 	Vertex<V> next;
 	private boolean visited;
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		Vertex<V> vtx = new Vertex<>(value);
+		vtx.setVisited(visited);
+		return vtx;
+	}
 	
 	public Vertex(V value)
 	{

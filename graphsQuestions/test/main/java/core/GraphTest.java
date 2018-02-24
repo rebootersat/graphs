@@ -1,16 +1,17 @@
 package main.java.core;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.assertEquals;
-
-public class GraphTest {
-
+public class GraphTest
+{
+	
 	private Graph<String> graph;
-
+	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	
@@ -18,34 +19,34 @@ public class GraphTest {
 	public void setUp() {
 		graph = new Graph<String>();
 	}
-
+	
 	@Test
 	public void addEdge_whenValueNull_shouldThrowIllegalArgumentException() {
 		exception.expectMessage("Value cannot be null");
 		exception.expect(IllegalArgumentException.class);
 		graph.addEdge("A", null);
 	}
-
+	
 	@Test
 	public void isEdgeExists_whenValueNull_shouldThrowIllegalArgumentException() {
 		exception.expectMessage("Value cannot be null");
 		exception.expect(IllegalArgumentException.class);
-		graph.isEdgeExists(null,"B");
+		graph.isEdgeExists(null, "B");
 	}
 	
 	@Test
 	public void isEdgeExists_whenEdgeExist_shouldReturnTrue() {
-		graph.addEdge("A","B");
-		boolean edgeExists = graph.isEdgeExists("A","B");
+		graph.addEdge("A", "B");
+		boolean edgeExists = graph.isEdgeExists("A", "B");
 		assertEquals(edgeExists, true);
 	}
 	
 	@Test
 	public void isEdgeExists_whenEdgeNotExist_shouldReturnFalse() {
-		graph.addEdge("A","B");
-		graph.addEdge("D","B");
-		graph.addEdge("D","C");
-		boolean edgeExists = graph.isEdgeExists("A","C");
+		graph.addEdge("A", "B");
+		graph.addEdge("D", "B");
+		graph.addEdge("D", "C");
+		boolean edgeExists = graph.isEdgeExists("A", "C");
 		assertEquals(edgeExists, false);
 	}
 	
@@ -58,18 +59,18 @@ public class GraphTest {
 	
 	@Test
 	public void isVisited_whenNotVisited_shouldReturnFalse() {
-		graph.addEdge("A","B");
-		graph.addEdge("B","C");
-		graph.addEdge("C","A");
+		graph.addEdge("A", "B");
+		graph.addEdge("B", "C");
+		graph.addEdge("C", "A");
 		boolean visited = graph.isVisited("A");
 		assertEquals(visited, false);
 	}
 	
 	@Test
 	public void isVisited_whenVisited_shouldReturnFalse() {
-		graph.addEdge("A","B");
-		graph.addEdge("B","C");
-		graph.addEdge("C","A");
+		graph.addEdge("A", "B");
+		graph.addEdge("B", "C");
+		graph.addEdge("C", "A");
 		graph.setVisted("A");
 		boolean visited = graph.isVisited("A");
 		assertEquals(visited, true);
@@ -77,9 +78,9 @@ public class GraphTest {
 	
 	@Test
 	public void isVisited_whenValueNull_shouldThrowException() {
-		graph.addEdge("A","B");
-		graph.addEdge("B","C");
-		graph.addEdge("C","A");
+		graph.addEdge("A", "B");
+		graph.addEdge("B", "C");
+		graph.addEdge("C", "A");
 		graph.setVisted("A");
 		exception.expectMessage("Value cannot be null");
 		exception.expect(IllegalArgumentException.class);
@@ -143,8 +144,31 @@ public class GraphTest {
 	}
 	
 	@Test
+	public void isConnected_whenEmpty_shouldReturnFalse() {
+		boolean isConnected = graph.isConnected();
+		assertEquals(isConnected, true);
+	}
+	
+	@Test
 	public void isConnected_whenNotConnected_shouldReturnFalse() {
+		graph.addEdge("A", "B");
+		graph.addEdge("C", "E");
 		boolean isConnected = graph.isConnected();
 		assertEquals(isConnected, false);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testClone() throws CloneNotSupportedException {
+		graph.addEdge("A", "B");
+		graph.addEdge("B", "D");
+		graph.addEdge("D", "F");
+		graph.addEdge("F", "E");
+		graph.addEdge("E", "D");
+		graph.addEdge("E", "C");
+		graph.addEdge("C", "A");
+	//	graph.printAdjacencyList();
+		((Graph<String>)graph.clone()).printAdjacencyList();
+	//	graph.printAdjacencyList();
 	}
 }
