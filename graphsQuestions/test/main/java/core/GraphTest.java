@@ -2,6 +2,8 @@ package main.java.core;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.NoSuchElementException;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,7 +11,6 @@ import org.junit.rules.ExpectedException;
 
 public class GraphTest
 {
-	
 	private Graph<String> graph;
 	
 	@Rule
@@ -167,8 +168,44 @@ public class GraphTest
 		graph.addEdge("E", "D");
 		graph.addEdge("E", "C");
 		graph.addEdge("C", "A");
-	//	graph.printAdjacencyList();
-		((Graph<String>)graph.clone()).printAdjacencyList();
-	//	graph.printAdjacencyList();
+		// graph.printAdjacencyList();
+		((Graph<String>) graph.clone()).printAdjacencyList();
+		// graph.printAdjacencyList();
+	}
+	
+	@Test
+	public void contains_whenValueNull_shouldThrowException() {
+		exception.expectMessage("Value cannot be null");
+		exception.expect(IllegalArgumentException.class);
+		graph.contains(null);
+	}
+	
+	@Test
+	public void contains_whenNotContainsValue_shouldReturnfalse() {
+		graph.addEdge("A", "B");
+		graph.addEdge("B", "D");
+		assertEquals(graph.contains("F"), false);
+	}
+	
+	@Test
+	public void contains_whenContainsValue_shouldReturnTrue() {
+		graph.addEdge("A", "B");
+		graph.addEdge("B", "D");
+		assertEquals(graph.contains("A"), true);
+	}
+	
+	@Test
+	public void getSource_whenGraphEmpty_shouldThrowException() {
+		exception.expectMessage("Source is not defined");
+		exception.expect(NoSuchElementException.class);
+		graph.getSource();
+	}
+	
+	@Test
+	public void getSource_whenGraphNotEmpty_shouldReturnSourceValue() {
+		graph.addEdge("A", "B");
+		graph.addEdge("B", "D");
+		String source = graph.getSource();
+		assertEquals("A", source);
 	}
 }
