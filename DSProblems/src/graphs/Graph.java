@@ -4,12 +4,20 @@ import java.util.Arrays;
 
 public class Graph {
 
-	private Vertex[] nodes;
+	private Vertex[] vertices;
 	private int index = 0;
+	private boolean isUndirectedGraph;
 
 	public Graph(int noOfNodes) {
-		nodes = new Vertex[noOfNodes];
+		vertices = new Vertex[noOfNodes];
 	}
+
+	public Graph(int noOfNodes, boolean isUndirectedGraph) {
+		vertices = new Vertex[noOfNodes];
+		this.isUndirectedGraph = isUndirectedGraph;
+	}
+
+	private boolean isAdded;
 
 	public void addEdge(String first, String second) {
 		Vertex firstEle = new Vertex(first);
@@ -17,7 +25,7 @@ public class Graph {
 		int eleIndex = hasNode(first);
 		if (eleIndex == -1) {
 			firstEle.next = secondEle;
-			nodes[index++] = firstEle;
+			vertices[index++] = firstEle;
 		} else {
 			Vertex lastNode = getLastNode(eleIndex);
 			lastNode.setNext(secondEle);
@@ -25,11 +33,16 @@ public class Graph {
 		eleIndex = hasNode(second);
 		if (eleIndex == -1) {
 			try {
-				nodes[index++] = (Vertex) secondEle.clone();
+				vertices[index++] = (Vertex) secondEle.clone();
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 			}
 		}
+		if (isUndirectedGraph && !isAdded) {
+			isAdded = true;
+			addEdge(second, first);
+		}
+		isAdded = false;
 	}
 
 	public void addEdge(String first, String second, int distance) {
@@ -38,7 +51,7 @@ public class Graph {
 		int eleIndex = hasNode(first);
 		if (eleIndex == -1) {
 			firstEle.next = secondEle;
-			nodes[index++] = firstEle;
+			vertices[index++] = firstEle;
 		} else {
 			Vertex lastNode = getLastNode(eleIndex);
 			lastNode.setNext(secondEle);
@@ -46,22 +59,35 @@ public class Graph {
 		eleIndex = hasNode(second);
 		if (eleIndex == -1) {
 			try {
-				nodes[index++] = (Vertex) secondEle.clone();
+				vertices[index++] = (Vertex) secondEle.clone();
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Returns true if pair exists for given values, false otherwise
+	 * 
+	 * @param firstValue
+	 * @param secondValue
+	 * @return Returns true if pair exists for given values, false otherwise
+	 */
 	public boolean isPairExist(String firstValue, String secondValue) {
 		int index = hasNode(firstValue);
 		return index != -1 ? indexOf(index, secondValue) != -1 : false;
 	}
 
+	/**
+	 * Returns source Vertex
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	public Vertex getSourceVertex() throws Exception {
 		if (index == 0)
 			throw new Exception("Graph is empty");
-		return nodes[0];
+		return vertices[0];
 	}
 
 	public void init() {
@@ -73,8 +99,17 @@ public class Graph {
 		addEdge("A", "C");
 	}
 
+	/**
+	 * Returns index for second value in the pair if exist, -1 otherwise
+	 * 
+	 * @param nodeIndex
+	 *            index of first vertex in the pair
+	 * @param pairValue
+	 *            second vertex value
+	 * @return Returns index for second value in the pair if exist, -1 otherwise
+	 */
 	private int indexOf(int nodeIndex, String pairValue) {
-		Vertex temp = nodes[nodeIndex];
+		Vertex temp = vertices[nodeIndex];
 		int i = 0;
 
 		while (temp != null) {
@@ -86,26 +121,36 @@ public class Graph {
 		return -1;
 	}
 
+	/**
+	 * Returns index of the vertex if exists, otherwise -1
+	 * 
+	 * @param value
+	 *            vertex value
+	 * @return Returns index of the vertex if exists, otherwise -1
+	 */
 	private int hasNode(String value) {
 		for (int i = 0; i < index; i++) {
-			if (value.equals(nodes[i].getValue()))
+			if (value.equals(vertices[i].getValue()))
 				return i;
 		}
 		return -1;
 	}
 
 	private Vertex getLastNode(int index) {
-		Vertex temp = nodes[index];
+		Vertex temp = vertices[index];
 		while (temp.next != null)
 			temp = temp.next;
 		return temp;
 	}
 
+	/**
+	 * Represents adjacency List
+	 */
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < index; i++) {
-			Vertex temp = nodes[i];
+			Vertex temp = vertices[i];
 			while (temp != null) {
 				result.append(temp.value).append(" ");
 				temp = temp.next;
@@ -121,31 +166,43 @@ public class Graph {
 		System.out.println(g);
 	}
 
-	public boolean isNodeVisited(Vertex node) {
+	/**
+	 * Returns true if vertex is visited, false otherwise
+	 * 
+	 * @param vertex
+	 *            given vertex
+	 * @return Returns true if vertex is visited, false otherwise
+	 */
+	public boolean isNodeVisited(Vertex vertex) {
 		boolean isNodeExist = false;
-		for (int i = 0; i < nodes.length; i++) {
-			if (nodes[i].equals(node)) {
+		for (int i = 0; i < vertices.length; i++) {
+			if (vertices[i].equals(vertex)) {
 				isNodeExist = true;
-				return nodes[i].isVisited;
+				return vertices[i].isVisited;
 			}
 		}
 		if (!isNodeExist)
-			throw new IllegalArgumentException("No such node exist..." + node.value);
+			throw new IllegalArgumentException("No such node exist..." + vertex.value);
 		return false;
 	}
 
-	public void registerVisit(Vertex node) {
+	/**
+	 * Mark Vertex as a visited vertex
+	 * 
+	 * @param vertex
+	 */
+	public void registerVisit(Vertex vertex) {
 		for (int i = 0; i < index; i++) {
-			if (nodes[i].equals(node)) {
-				nodes[i].setVisited(true);
+			if (vertices[i].equals(vertex)) {
+				vertices[i].setVisited(true);
 			}
 		}
 	}
 
 	public boolean hasLinkedNode(Vertex node) {
 		for (int i = 0; i < index; i++) {
-			if (nodes[i].equals(node)) {
-				return nodes[i].next != null ? true : false;
+			if (vertices[i].equals(node)) {
+				return vertices[i].next != null ? true : false;
 			}
 		}
 		return false;
@@ -153,8 +210,8 @@ public class Graph {
 
 	public Vertex getLinkedNode(Vertex node) {
 		for (int i = 0; i < index; i++) {
-			if (nodes[i].equals(node)) {
-				return getNonVisitedNode(nodes[i]);
+			if (vertices[i].equals(node)) {
+				return getNonVisitedNode(vertices[i]);
 			}
 		}
 		return null;
@@ -170,46 +227,101 @@ public class Graph {
 		return null;
 	}
 
+	/**
+	 * Returns adjacent vertices for a given vertex
+	 * 
+	 * @param sourceNode
+	 *            given vertex
+	 * @return Returns adjacent vertices for a given vertex
+	 */
 	public Vertex[] getAdjacentVertices(Vertex sourceNode) {
-		Vertex[] vertices = new Vertex[0];
+		Vertex[] adjVertices = new Vertex[0];
 		for (int i = 0; i < index; i++) {
-			if (nodes[i].equals(sourceNode)) {
-				Vertex adjacentVertex = getNonVisitedNode(nodes[i]);
+			if (vertices[i].equals(sourceNode)) {
+				Vertex adjacentVertex = getNonVisitedNode(vertices[i]);
 				int z = 0;
 				while (adjacentVertex != null) {
 					if (!adjacentVertex.isVisited) {
-						vertices = Arrays.copyOf(vertices, z + 1);
-						vertices[z++] = adjacentVertex;
+						adjVertices = Arrays.copyOf(adjVertices, z + 1);
+						adjVertices[z++] = adjacentVertex;
 					}
 					adjacentVertex = adjacentVertex.next;
 				}
+				break;
 			}
 		}
-		return vertices;
+		return adjVertices;
 	}
 
+	/**
+	 * Returns adjacent vertices for a given vertex which are not visited
+	 * 
+	 * @param sourceNode
+	 *            given vertex
+	 * @return array of adjacent Vertices
+	 */
 	public Vertex[] getAdjacentVertices(String sourceNode) {
-		Vertex[] vertices = new Vertex[0];
+		Vertex[] adjVertices = new Vertex[0];
 		for (int i = 0; i < index; i++) {
-			if (nodes[i].getValue().equals(sourceNode)) {
-				Vertex adjacentVertex = getNonVisitedNode(nodes[i]);
+			if (vertices[i].getValue().equals(sourceNode)) {
+				Vertex adjacentVertex = getNonVisitedNode(vertices[i]);
 				int z = 0;
 				while (adjacentVertex != null) {
 					if (!adjacentVertex.isVisited) {
-						vertices = Arrays.copyOf(vertices, z + 1);
-						vertices[z++] = adjacentVertex;
+						adjVertices = Arrays.copyOf(vertices, z + 1);
+						adjVertices[z++] = adjacentVertex;
 					}
 					adjacentVertex = adjacentVertex.next;
 				}
+				break;
 			}
 		}
-		return vertices;
+		return adjVertices;
 	}
-	
+
+	/**
+	 * Returns adjacent vertices for a given vertex
+	 * 
+	 * @param sourceNode
+	 *            given vertex
+	 * @return array of adjacent Vertices
+	 */
+	public Vertex[] getAllAdjacentVertices(String sourceNode) {
+		Vertex[] adjVertices = new Vertex[0];
+		for (int i = 0; i < index; i++) {
+			if (vertices[i].getValue().equals(sourceNode)) {
+				Vertex adjacentVertex = null;
+				if (vertices[i].next != null)
+					adjacentVertex = vertices[i].next;
+				int z = 0;
+				while (adjacentVertex != null) {
+					adjVertices = Arrays.copyOf(adjVertices, z + 1);
+					adjVertices[z++] = adjacentVertex;
+					adjacentVertex = adjacentVertex.next;
+				}
+				break;
+			}
+		}
+		return adjVertices;
+	}
+
+	/**
+	 * Return all the vertices of the graph
+	 * 
+	 * @return
+	 */
 	public String[] getAllVerticesValue() {
 		String arr[] = new String[index];
 		for (int i = 0; i < index; i++) {
-			arr[i] = nodes[i].getValue();
+			arr[i] = vertices[i].getValue();
+		}
+		return arr;
+	}
+	
+	public Vertex[] getAllVertices() {
+		Vertex arr[] = new Vertex[index];
+		for (int i = 0; i < index; i++) {
+			arr[i] = vertices[i];
 		}
 		return arr;
 	}

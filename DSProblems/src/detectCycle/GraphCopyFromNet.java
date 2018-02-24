@@ -6,13 +6,13 @@ import java.util.*;
 
 //This class represents a directed graph using adjacency list
 //representation
-class Graph
+class GraphCopyFromNet
 {
 	private int V; // No. of vertices
 	private LinkedList<Integer> adj[]; // Adjacency List Represntation
 
 	// Constructor
-	Graph(int v) {
+	GraphCopyFromNet(int v) {
 		V = v;
 		adj = new LinkedList[v];
 		for(int i=0; i<v; ++i)
@@ -29,18 +29,26 @@ class Graph
 	// cycle in subgraph reachable from vertex v.
 	Boolean isCyclicUtil(int v, Boolean visited[], int parent)
 	{
-		// Mark the current node as visited
+		System.out.println("isCyclicUtil called v : "+v+" parent : "+parent);
+		printArray(visited);
 		visited[v] = true;
 		Integer i;
-
+		System.out.println("v : "+v);
+		printArray(visited);
+		System.out.println();
+		// Mark the current node as visited
+		
 		// Recur for all the vertices adjacent to this vertex
 		Iterator<Integer> it = adj[v].iterator();
 		while (it.hasNext())
 		{
 			i = it.next();
+			System.out.println("while loop I : "+i);
 
 			// If an adjacent is not visited, then recur for that
 			// adjacent
+			System.out.println(" !visited["+i+"] "+!visited[i]);
+			System.out.println("parent : "+parent+" I "+i+" i != parent "+(i != parent));
 			if (!visited[i])
 			{
 				if (isCyclicUtil(i, visited, v))
@@ -55,6 +63,12 @@ class Graph
 		return false;
 	}
 
+	private void printArray(Boolean visited[]) {
+		for (int i = 0; i < visited.length; i++) {
+			System.out.print(i+" : "+visited[i]+" ");
+		}
+	}
+	
 	// Returns true if the graph contains a cycle, else false.
 	Boolean isCyclic()
 	{
@@ -79,11 +93,11 @@ class Graph
 	public static void main(String args[])
 	{
 		// Create a graph given in the above diagram
-		Graph g1 = new Graph(5);
-		g1.addEdge(1, 2);
-		g1.addEdge(1, 3);
-		g1.addEdge(1, 4);
-	//	g1.addEdge(3, 4);
+		GraphCopyFromNet g1 = new GraphCopyFromNet(4);
+		g1.addEdge(0, 1);
+		g1.addEdge(0, 2);
+		g1.addEdge(0, 3);
+		g1.addEdge(2, 3);
 		if (g1.isCyclic())
 			System.out.println("Graph contains cycle");
 		else
