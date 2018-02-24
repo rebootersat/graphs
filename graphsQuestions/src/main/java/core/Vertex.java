@@ -50,7 +50,6 @@ public class Vertex<V> implements Cloneable
 	
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
-		new Vertex<>(value);
 		return new Vertex<>(value);
 	}
 }
