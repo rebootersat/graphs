@@ -44,12 +44,12 @@ public class Graph<V>
 		if (vertexIndex == -1)
 			addVertex(v1).next = createVertexForValue(v2);
 		else
-			getLastVertex(vertices[vertexIndex]).next = createVertexForValue(v2);
+			getLastVertex(vertices[vertexIndex]).setNext(createVertexForValue(v2));
 		
 		if (!isDirected)
 			try
 			{
-				getLastVertex(vertices[getVertexIndex(v2)]).next = (Vertex<V>) vertices[getVertexIndex(v1)].clone();
+				getLastVertex(vertices[getVertexIndex(v2)]).setNext((Vertex<V>) vertices[getVertexIndex(v1)].clone());
 			}
 			catch (CloneNotSupportedException e)
 			{
