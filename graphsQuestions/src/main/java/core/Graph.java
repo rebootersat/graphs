@@ -9,7 +9,7 @@ import java.util.Arrays;
  *
  * @param <V>
  */
-public class Graph<V>
+public class Graph<V extends Object>
 {
 	private Vertex<V>[] vertices;
 	private boolean isDirected;
@@ -34,7 +34,6 @@ public class Graph<V>
 	 * @param v2
 	 * @throws CloneNotSupportedException
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean addEdge(V v1, V v2) {
 		if (isEdgeExists(v1, v2))
 			return true;
@@ -47,33 +46,26 @@ public class Graph<V>
 			getLastVertex(vertices[vertexIndex]).setNext(createVertexForValue(v2));
 		
 		if (!isDirected)
-			try
-			{
-				getLastVertex(vertices[getVertexIndex(v2)]).setNext((Vertex<V>) vertices[getVertexIndex(v1)].clone());
-			}
-			catch (CloneNotSupportedException e)
-			{
-				e.printStackTrace();
-			}
+			getLastVertex(vertices[getVertexIndex(v2)]).setNext(new Vertex<>(v1));
 		return true;
 	}
 	
 	/**
 	 * Returns true if edge exist for given values, false otherwise
 	 * 
-	 * @param v1
-	 * @param v2
+	 * @param value1
+	 * @param value2
 	 * @return Returns true if edge exist for given values, false otherwise
 	 */
-	public boolean isEdgeExists(V v1, V v2) {
-		isNull(v1, v2);
-		int vertexIndex = getVertexIndex(v1);
-		if (vertexIndex != -1 && getVertexIndex(v2) != -1)
+	public boolean isEdgeExists(V value1, V value2) {
+		isNull(value1, value2);
+		int vertexIndex = getVertexIndex(value1);
+		if (vertexIndex != -1 && getVertexIndex(value2) != -1)
 		{
 			Vertex<V> vertex = vertices[vertexIndex];
 			while (vertex != null)
 			{
-				if (vertex.getValue().equals(v2))
+				if (vertex.getValue().equals(value2))
 					return true;
 				vertex = vertex.next;
 			}
@@ -141,27 +133,18 @@ public class Graph<V>
 	/**
 	 * Create a vertex for given value
 	 * 
-	 * @param v2
+	 * @param value
 	 *            given value
 	 * @return newly created vertex
 	 * @throws CloneNotSupportedException
 	 */
-	@SuppressWarnings("unchecked")
-	private Vertex<V> createVertexForValue(V v2) {
+	private Vertex<V> createVertexForValue(V value) {
 		int vertexIndex;
 		Vertex<V> vertex2 = null;
-		vertexIndex = getVertexIndex(v2);
+		vertexIndex = getVertexIndex(value);
 		if (vertexIndex == -1)
-			try
-			{
-				vertex2 = (Vertex<V>) addVertex(v2).clone();
-			}
-			catch (CloneNotSupportedException e)
-			{
-				e.printStackTrace();
-			}
-		else
-			vertex2 = new Vertex<V>(v2);
+			addVertex(value);
+		vertex2 = new Vertex<V>(value);
 		return vertex2;
 	}
 	
@@ -183,13 +166,13 @@ public class Graph<V>
 	/**
 	 * create a vertex for given value and adds it in vertices list
 	 * 
-	 * @param v1
+	 * @param value
 	 *            given value
 	 * @return newly create vertex
 	 */
-	private Vertex<V> addVertex(V v1) {
+	private Vertex<V> addVertex(V value) {
 		vertices = Arrays.copyOf(vertices, vertices.length + 1);
-		vertices[vertices.length - 1] = new Vertex<>(v1);
+		vertices[vertices.length - 1] = new Vertex<>(value);
 		return vertices[vertices.length - 1];
 	}
 	
@@ -218,12 +201,12 @@ public class Graph<V>
 	/**
 	 * Throws NullPointer exception if any value is null
 	 * 
-	 * @param value
+	 * @param values
 	 */
-	private void isNull(Object... value) {
-		for (int i = 0; i < value.length; i++)
-			if (value[i] == null)
-				throw new NullPointerException("Value cannot be null");
+	private void isNull(Object... values) {
+		for (int i = 0; i < values.length; i++)
+			if (values[i] == null)
+				throw new IllegalArgumentException("Value cannot be null");
 	}
 	
 	/**
@@ -249,5 +232,31 @@ public class Graph<V>
 			vertex = vertex.next;
 		}
 		return adjacentValues;
+	}
+	
+	/**
+	 * Returns the values of all vertices
+	 * 
+	 * @return
+	 */
+	public Object[] getVerticesValue() {
+		Object[] vts = new Object[vertices.length];
+		for (int i = 0; i < vertices.length; i++)
+			vts[i] = vertices[i].getValue();
+		return vts;
+	}
+	
+	/**
+	 * Returns true if graph is connected, false otherwise
+	 * 
+	 * @return
+	 */
+	public boolean isConnected() {
+		for (int i = 0; i < vertices.length; i++)
+		{
+			if (!vertices[i].isVisited())
+				return false;
+		}
+		return true;
 	}
 }

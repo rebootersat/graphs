@@ -1,6 +1,6 @@
 package main.java.core;
 
-public class Vertex<V> implements Cloneable
+public class Vertex<V>
 {
 	private V value;
 	Vertex<V> next;
@@ -46,10 +46,5 @@ public class Vertex<V> implements Cloneable
 		if (vertex == this)
 			return true;
 		return vertex.getValue().equals(value);
-	}
-	
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		return new Vertex<>(value);
 	}
 }

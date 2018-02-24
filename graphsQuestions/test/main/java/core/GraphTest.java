@@ -20,16 +20,16 @@ public class GraphTest {
 	}
 
 	@Test
-	public void addEdge_whenValueNull_shouldThrowNullPointerException() {
+	public void addEdge_whenValueNull_shouldThrowIllegalArgumentException() {
 		exception.expectMessage("Value cannot be null");
-		exception.expect(NullPointerException.class);
+		exception.expect(IllegalArgumentException.class);
 		graph.addEdge("A", null);
 	}
 
 	@Test
-	public void isEdgeExists_whenValueNull_shouldThrowNullPointerException() {
+	public void isEdgeExists_whenValueNull_shouldThrowIllegalArgumentException() {
 		exception.expectMessage("Value cannot be null");
-		exception.expect(NullPointerException.class);
+		exception.expect(IllegalArgumentException.class);
 		graph.isEdgeExists(null,"B");
 	}
 	
@@ -82,7 +82,7 @@ public class GraphTest {
 		graph.addEdge("C","A");
 		graph.setVisted("A");
 		exception.expectMessage("Value cannot be null");
-		exception.expect(NullPointerException.class);
+		exception.expect(IllegalArgumentException.class);
 		boolean visited = graph.isVisited(null);
 		assertEquals(visited, true);
 	}
@@ -104,7 +104,7 @@ public class GraphTest {
 	@Test
 	public void getAdjacentValues_whenValueNull_shouldThrowException() {
 		exception.expectMessage("Value cannot be null");
-		exception.expect(NullPointerException.class);
+		exception.expect(IllegalArgumentException.class);
 		graph.getAdjacentValues(null);
 	}
 	
@@ -126,5 +126,25 @@ public class GraphTest {
 		graph.addEdge("C", "A");
 		Object[] adjacentValues = graph.getAdjacentValues("E");
 		assertEquals(adjacentValues.length, 2);
+	}
+	
+	@Test
+	public void getVerticesValue_whenGraphEmpty_valueLengthShouldBeZero() {
+		Object[] verticesValue = graph.getVerticesValue();
+		assertEquals(verticesValue.length, 0);
+	}
+	
+	@Test
+	public void getVerticesValue_whenGraphNotEmpty_valueLengthShouldBeThree() {
+		graph.addEdge("A", "B");
+		graph.addEdge("C", "B");
+		Object[] verticesValue = graph.getVerticesValue();
+		assertEquals(verticesValue.length, 3);
+	}
+	
+	@Test
+	public void isConnected_whenNotConnected_shouldReturnFalse() {
+		boolean isConnected = graph.isConnected();
+		assertEquals(isConnected, false);
 	}
 }
