@@ -317,12 +317,28 @@ public class Graph {
 		}
 		return arr;
 	}
-	
+
 	public Vertex[] getAllVertices() {
 		Vertex arr[] = new Vertex[index];
 		for (int i = 0; i < index; i++) {
 			arr[i] = vertices[i];
 		}
 		return arr;
+	}
+
+	/**
+	 * set all node of the graph non visited
+	 */
+	public void reset() {
+		for (int i = 0; i < index; i++) {
+			vertices[i].isVisited = false;
+			Vertex adjacentVertex = null;
+			if (vertices[i].next != null)
+				adjacentVertex = vertices[i].next;
+			while (adjacentVertex != null) {
+				adjacentVertex.isVisited = false;
+				adjacentVertex = adjacentVertex.next;
+			}
+		}
 	}
 }
