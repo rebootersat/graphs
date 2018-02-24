@@ -42,7 +42,7 @@ public class Graph<V>
 		// already exist for the value
 		int vertexIndex = getVertexIndex(v1);
 		if (vertexIndex == -1)
-			addVertex(v1).next = createVertexForValue(v2);
+			addVertex(v1).setNext(createVertexForValue(v2));
 		else
 			getLastVertex(vertices[vertexIndex]).setNext(createVertexForValue(v2));
 		
