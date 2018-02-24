@@ -15,7 +15,7 @@ public class GraphTest {
 	public ExpectedException exception = ExpectedException.none();
 	
 	@Before
-	public void setUp() throws CloneNotSupportedException{
+	public void setUp() {
 		graph = new Graph<String>();
 	}
 
