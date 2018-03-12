@@ -175,7 +175,7 @@ public class UnorderedQueue<E> implements Queue<E>
 			result.append(temp.value).append(" ");
 			temp = temp.next;
 		}
-		return result.toString();
+		return result.toString().trim();
 	}
 	
 	class QElement

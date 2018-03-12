@@ -39,7 +39,7 @@ public class BFSTest
 	@Test
 	public void execute_shouldReturnQueue() {
 		Queue<String> resultQ = bfs.execute();
-		System.out.println(resultQ);
+		assertEquals("A B D C E F", resultQ.toString());
 	}
 	@Test
 	public void isConnectedGraph_whenConnected_shouldreturnTrue() {
