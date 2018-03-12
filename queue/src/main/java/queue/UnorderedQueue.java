@@ -143,6 +143,7 @@ public class UnorderedQueue<E> implements Queue<E>
 			throw new UnderflowException();
 		E ele = front.value;
 		front = front.next;
+		size--;
 		return ele;
 	}
 	
@@ -152,6 +153,7 @@ public class UnorderedQueue<E> implements Queue<E>
 			return null;
 		E ele = front.value;
 		front = front.next;
+		size--;
 		return ele;
 	}
 	
@@ -163,6 +165,17 @@ public class UnorderedQueue<E> implements Queue<E>
 	@Override
 	public E peek() {
 		return null;
+	}
+	
+	@Override
+	public String toString() {
+		QElement temp = front;
+		StringBuilder result = new StringBuilder();
+		while(temp != null){
+			result.append(temp.value).append(" ");
+			temp = temp.next;
+		}
+		return result.toString();
 	}
 	
 	class QElement
