@@ -303,6 +303,12 @@ public class Graph<V> implements Cloneable
 		return vts;
 	}
 	
+	/**
+	 * Returns an array for unvisited adjacent vertices for a given source value
+	 * 
+	 * @param value source value for which adjacent vertices required
+	 * @return  Returns an array for unvisited adjacent vertices
+	 */
 	public Object[] getUnvisitedAdjacentVertices(V value) {
 		int vertexIndex = getVertexIndex(value);
 		if (vertexIndex == -1)
