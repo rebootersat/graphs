@@ -208,4 +208,14 @@ public class GraphTest
 		String source = graph.getSource();
 		assertEquals("A", source);
 	}
+	
+	@Test
+	public void getUnvisitedAdjacentVertices_whenGraphNotEmpty_shouldReturnUnvisitedAdjacentVertices() {
+		graph.addEdge("A", "B");
+		graph.addEdge("A", "D");
+		graph.setVisted("A","B");
+		Object[] source = graph.getUnvisitedAdjacentVertices("A");
+		assertEquals("D", source[0]);
+		assertEquals(1, source.length);
+	}
 }

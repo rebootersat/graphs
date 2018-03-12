@@ -119,6 +119,31 @@ public class Graph<V> implements Cloneable
 	}
 	
 	/**
+	 * If Vertex exists for given source value and target value exists then sets
+	 * the target vertex flag to true, throws exception if Vertex does not exist
+	 * for given source value
+	 * 
+	 * @param value
+	 */
+	public boolean setVisted(V sourceValue, V targetValue) {
+		int vertexIndex = getVertexIndex(sourceValue);
+		if (vertexIndex == -1)
+			throw new IllegalArgumentException("Vertex does not exist for given value " + sourceValue);
+		
+		Vertex<V> vtx = vertices[vertexIndex].next;
+		while (vtx != null)
+		{
+			if (vtx.getValue().equals(targetValue))
+			{
+				vtx.setVisited(true);
+				return true;
+			}
+			vtx = vtx.next;
+		}
+		return false;
+	}
+	
+	/**
 	 * Return true if vertex visited for given value, false otherwise. Throws
 	 * exception if Vertex does not exist for given value
 	 * 
@@ -276,6 +301,25 @@ public class Graph<V> implements Cloneable
 		for (int i = 0; i < vertices.length; i++)
 			vts[i] = vertices[i].getValue();
 		return vts;
+	}
+	
+	public Object[] getUnvisitedAdjacentVertices(V value) {
+		int vertexIndex = getVertexIndex(value);
+		if (vertexIndex == -1)
+			throw new IllegalArgumentException("Vertex does not exist for given value " + value);
+		Object[] adjacentValues = new Object[0];
+		Vertex<V> vtx = vertices[vertexIndex].next;
+		int index = 0;
+		while (vtx != null)
+		{
+			if (!vtx.isVisited())
+			{
+				adjacentValues = Arrays.copyOf(adjacentValues, adjacentValues.length + 1);
+				adjacentValues[index++] = vtx.getValue();
+			}
+			vtx = vtx.next;
+		}
+		return adjacentValues;
 	}
 	
 	/**
