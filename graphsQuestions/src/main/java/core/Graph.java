@@ -292,6 +292,34 @@ public class Graph<V> implements Cloneable
 	}
 	
 	/**
+	 * Returns unvisited adjacent values for given value, If value is null then null
+	 * pointer exception is thrown. If value does not exist then illegal
+	 * argument exception is thrown
+	 * 
+	 * @param value
+	 *            given value
+	 * @return Returns adjacent values for given value
+	 */
+	public Object[] getUnVisitedAdjacentValues(V value) {
+		int vertexIndex = getVertexIndex(value);
+		if (vertexIndex == -1)
+			throw new IllegalArgumentException("Vertex does not exist for given value " + value);
+		Object[] adjacentValues = new Object[0];
+		Vertex<V> vertex = vertices[vertexIndex].next;
+		int index = 0;
+		while (vertex != null)
+		{
+			if (!isVisited(vertex.getValue()))
+			{
+				adjacentValues = Arrays.copyOf(adjacentValues, adjacentValues.length + 1);
+				adjacentValues[index++] = vertex.getValue();
+			}
+			vertex = vertex.next;
+		}
+		return adjacentValues;
+	}
+	
+	/**
 	 * Returns the values of all vertices
 	 * 
 	 * @return Returns the values of all vertices
@@ -306,8 +334,9 @@ public class Graph<V> implements Cloneable
 	/**
 	 * Returns an array for unvisited adjacent vertices for a given source value
 	 * 
-	 * @param value source value for which adjacent vertices required
-	 * @return  Returns an array for unvisited adjacent vertices
+	 * @param value
+	 *            source value for which adjacent vertices required
+	 * @return Returns an array for unvisited adjacent vertices
 	 */
 	public Object[] getUnvisitedAdjacentVertices(V value) {
 		int vertexIndex = getVertexIndex(value);
