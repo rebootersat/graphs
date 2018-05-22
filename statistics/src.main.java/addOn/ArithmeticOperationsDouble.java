@@ -27,4 +27,9 @@ public class ArithmeticOperationsDouble implements ArithmeticOperations<Double>
 	public double subtract(Double a, double b) {
 		return a.doubleValue() - b;
 	}
+
+	@Override
+	public Double multiply(Double a, Double b) {
+		return a.doubleValue() * b.doubleValue();
+	}
 }

@@ -27,5 +27,10 @@ public class ArithmeticOperationsInteger implements ArithmeticOperations<Integer
 	public double subtract(Integer a, double b) {
 		return a.intValue() - b;
 	}
+
+	@Override
+	public Integer multiply(Integer a, Integer b) {
+		return a.intValue() * b.intValue();
+	}
 	
 }

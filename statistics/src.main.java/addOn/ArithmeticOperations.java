@@ -7,4 +7,5 @@ public interface ArithmeticOperations<T>
 	double divide(T a, int b);
 	T subtract(T a, T b);
 	double subtract(T a, double b);
+	T multiply(T a, T b);
 }
