@@ -1,4 +1,6 @@
-package machine.stats.core;
+package machine.stats.core.utility;
+
+import machine.stats.core.utility.Variance;
 
 import org.junit.Before;
 import org.junit.Test;

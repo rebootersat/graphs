@@ -1,4 +1,4 @@
-package machine.stats.core;
+package machine.stats.core.utility;
 
 import addOn.ArithmeticOperations;
 

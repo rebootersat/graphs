@@ -1,24 +1,26 @@
-package machine.stats.core;
+package machine.stats.core.utility;
+
+import machine.stats.core.utility.Covariance;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import addOn.ArithmeticOperationsDouble;
+import addOn.ArithmeticOperationsInteger;
 
 public class CovarianceTest
 {
-	private Covariance<Double> sdev;
+	private Covariance<Integer> covariance;
 	
 	@Before
 	public void setUp() {
-		sdev = new Covariance<Double>(new Double[]
-		{ 0.0, 8.0, 12.0, 20.0 }, new Double[]
-		{ 0.0, 32.0, 12.0, 30.0 }, new ArithmeticOperationsDouble());
+		covariance = new Covariance<Integer>(new Integer[]
+		{ 9, 15, 25, 14, 10, 18, 0, 16, 5, 19, 16, 20 }, new Integer[]
+		{ 39, 56, 93, 61, 50, 75, 32, 85, 42, 70, 66, 80 }, new ArithmeticOperationsInteger());
 	}
 	
 	@Test
 	public void getStandDeviation() {
-		double standDeviation = sdev.getCovariance();
-		System.out.println(" StandardDeviation  " + standDeviation);
+		double covr = covariance.getCovariance();
+		System.out.println(" Covariance  " + covr);
 	}
 }

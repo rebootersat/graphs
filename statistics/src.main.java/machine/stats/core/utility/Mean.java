@@ -1,4 +1,4 @@
-package machine.stats.core;
+package machine.stats.core.utility;
 
 import addOn.ArithmeticOperations;
 
@@ -26,7 +26,6 @@ public class Mean<T extends Number>
 		T sum = arithmeticOperations.zero();
 		for (int i = 0; i < sampleData.length; i++)
 			sum = arithmeticOperations.add(sum, sampleData[i]);
-		
 		return arithmeticOperations.divide(sum , sampleData.length);
 	}
 	

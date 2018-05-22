@@ -1,7 +1,8 @@
-package machine.stats.core;
+package machine.stats.core.utility;
 
 import static org.junit.Assert.*;
 import junit.framework.Assert;
+import machine.stats.core.utility.Mean;
 
 import org.junit.Before;
 import org.junit.Test;
