@@ -28,16 +28,12 @@ public class Covariance<T extends Number>
 			throw new IllegalArgumentException("Sample size not same, X1 = " + x1.length + " X2= " + x2.length);
 		double x1Mean =new Mean<T>(x1, artmtOpr).getMean();
 		double x2Mean =new Mean<T>(x2, artmtOpr).getMean();
-		System.out.println("X1 mean "+x1Mean);
-		System.out.println("X2 mean "+x2Mean);
 		double sum = 0.0;
 		for (int i = 0; i < x1.length; i++){
 			double first = artmtOpr.subtract(x1[i], x1Mean);
 			double second = artmtOpr.subtract(x2[i], x2Mean);
 			sum = sum + (first * second);
-			System.out.println(first+" , "+second+" = "+first * second+" SUM "+sum);
 		}
-		System.out.println(sum);
 		return sum/ (x1.length - 1);
 	}
 	

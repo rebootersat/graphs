@@ -12,8 +12,9 @@ public class CovarianceMatrixTest
 	public void getCovarianceMatrix() {
 		
 		Integer[][] data = {
-				{ 9, 15, 25, 14, 10, 18, 0, 16, 5, 19, 16, 20 },
-				{ 39, 56, 93, 61, 50, 75, 32, 85, 42, 70, 66, 80 }
+				{ 90,90,60,60,30 },
+				{60,90,60,60,30},
+				{90,30,60,90,30}
 		};
 		
 		double[][] covarianceMatrix = CovarianceMatrix.getCovarianceMatrix(new ArithmeticOperationsInteger(), data);
