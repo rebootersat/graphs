@@ -17,5 +17,15 @@ public class ArithmeticOperationsInteger implements ArithmeticOperations<Integer
 	public double divide(Integer a, int b) {
 		return a.intValue() / b;
 	}
+
+	@Override
+	public Integer subtract(Integer a, Integer b) {
+		return a.intValue() - b.intValue();
+	}
+
+	@Override
+	public double subtract(Integer a, double b) {
+		return a.intValue() - b;
+	}
 	
 }

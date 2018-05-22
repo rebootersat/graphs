@@ -29,4 +29,17 @@ public class Mean<T extends Number>
 		
 		return arithmeticOperations.divide(sum , sampleData.length);
 	}
+	
+	public static <T extends Number> double getMean(T[] sampleData, ArithmeticOperations<T> arithmeticOperations){
+		if (sampleData == null)
+			throw new NullPointerException("No data provided");
+		if (sampleData.length == 0)
+			throw new IllegalArgumentException("Empty data set not allowed");
+		
+		T sum = arithmeticOperations.zero();
+		for (int i = 0; i < sampleData.length; i++)
+			sum = arithmeticOperations.add(sum, sampleData[i]);
+		
+		return arithmeticOperations.divide(sum , sampleData.length);
+	}
 }

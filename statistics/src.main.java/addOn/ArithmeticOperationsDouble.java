@@ -18,4 +18,13 @@ public class ArithmeticOperationsDouble implements ArithmeticOperations<Double>
 		return a.doubleValue() / b;
 	}
 	
+	@Override
+	public Double subtract(Double a, Double b) {
+		return a.doubleValue() - b.doubleValue();
+	}
+
+	@Override
+	public double subtract(Double a, double b) {
+		return a.doubleValue() - b;
+	}
 }
